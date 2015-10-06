@@ -239,6 +239,11 @@ augroup END
 
 set guifont=Monaco\ For\ Powerline:h12
 
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
+
+
 let mapleader=" "
 let maplocalleader="-"
 

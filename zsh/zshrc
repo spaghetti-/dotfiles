@@ -1,4 +1,5 @@
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/alex/Library/Python/2.7/bin"
+PATH=${PATH}:/Users/alex/.cabal/bin
 
 source /Users/alex/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
 
