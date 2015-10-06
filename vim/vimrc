@@ -52,7 +52,7 @@ set title               " show file in titlebar
 set undofile            " stores undo state even when files are closed (in undodir)
 set cursorline          " highlights the current line
 set winaltkeys=no       " turns of the Alt key bindings to the gui menu
-
+set number
 " When you type the first tab, it will complete as much as possible, the second
 " tab hit will provide a list, the third and subsequent tabs will cycle through
 " completion options so you can complete the file without further keys
@@ -267,10 +267,6 @@ noremap <leader>ss :setlocal spell! spelllang=en_us<cr>
 " such an operation.
 vnoremap < <gv
 vnoremap > >gv
-
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
 
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_color_change_percent = 7

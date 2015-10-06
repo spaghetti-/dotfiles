@@ -8,6 +8,8 @@ SAVEHIST=10000
 setopt appendhistory autocd extendedglob notify
 unsetopt beep
 
+DISABLE_AUTO_TITLE="true"
+
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
