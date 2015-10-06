@@ -1,0 +1,17 @@
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/alex/Library/Python/2.7/bin"
+
+source /Users/alex/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
+
+HISTFILE=~/.histfile
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory autocd extendedglob notify
+unsetopt beep
+
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+source ~/.zsh/antigen-hs/init.zsh
