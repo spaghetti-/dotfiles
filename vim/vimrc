@@ -12,11 +12,13 @@ Plugin 'Valloric/MatchTagAlways'
 Plugin 'Valloric/python-indent'
 Plugin 'Valloric/vim-operator-highlight'
 Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-surround'
-" Plugin 'ctrlpvim/ctrlp.vim'
+ Plugin 'ctrlpvim/ctrlp.vim'
 " Use Command-T instead because my mac comes with Ruby installed anyway
+" Plugin 'wincent/Command-T'
 Plugin 'godlygeek/tabular'
-Plugin 'helino/vim-json'
+Plugin 'elzr/vim-json'
 Plugin 'michaeljsmith/vim-indent-object'
 Plugin 'python.vim'
 Plugin 'python_match.vim'
@@ -316,3 +318,4 @@ let g:syntastic_mode_map = {
 let g:mta_use_matchparen_group = 0
 let g:ophigh_filetypes_to_ignore = { "spansdl": 1 }
 
+let g:ctrlp_map = '<Leader>-p'

@@ -17,4 +17,6 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
 source ~/.zsh/antigen-hs/init.zsh
