@@ -5,6 +5,7 @@ set nocompatible
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=/usr/local/opt/fzf
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
@@ -318,4 +319,4 @@ let g:syntastic_mode_map = {
 let g:mta_use_matchparen_group = 0
 let g:ophigh_filetypes_to_ignore = { "spansdl": 1 }
 
-let g:ctrlp_map = '<Leader>-p'
+let g:ctrlp_map = '<Leader>p'

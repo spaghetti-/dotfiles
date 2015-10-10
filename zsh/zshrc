@@ -8,7 +8,7 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory autocd extendedglob notify
 unsetopt beep
-
+TERM=screen-256color
 DISABLE_AUTO_TITLE="true"
 
 autoload -U up-line-or-beginning-search
@@ -20,3 +20,5 @@ bindkey "^[[B" down-line-or-beginning-search # Down
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 source ~/.zsh/antigen-hs/init.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
