@@ -1,7 +1,7 @@
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/alex/Library/Python/2.7/bin"
 PATH=${PATH}:/Users/alex/.cabal/bin
-
-source /Users/alex/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
+PATH=${PATH}:/usr/local/texlive/2015basic/bin/x86_64-darwin
+source /usr/local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
 
 HISTFILE=~/.histfile
 HISTSIZE=10000
