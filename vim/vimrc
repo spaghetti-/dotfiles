@@ -15,9 +15,7 @@ Plugin 'Valloric/vim-operator-highlight'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-surround'
- Plugin 'ctrlpvim/ctrlp.vim'
-" Use Command-T instead because my mac comes with Ruby installed anyway
-" Plugin 'wincent/Command-T'
+" Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'elzr/vim-json'
 Plugin 'michaeljsmith/vim-indent-object'
@@ -36,6 +34,7 @@ Plugin 'xolox/vim-pyref'
 Plugin 'xolox/vim-session'
 Plugin 'sickill/vim-monokai'
 Plugin 'vim-scripts/Wombat'
+Plugin 'junegunn/fzf.vim'
 call vundle#end()
 
 augroup vimrc
@@ -263,6 +262,8 @@ cnoremap w!! w !sudo tee % >/dev/null
 " quit all
 noremap <Leader>q :qa<cr>
 
+" fzf
+noremap <Leader>p :Files<cr>
 
 " Switch to the directory of the open buffer
 noremap <leader>cd :cd %:p:h<cr>
@@ -319,4 +320,3 @@ let g:syntastic_mode_map = {
 let g:mta_use_matchparen_group = 0
 let g:ophigh_filetypes_to_ignore = { "spansdl": 1 }
 
-let g:ctrlp_map = '<Leader>p'
