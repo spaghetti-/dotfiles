@@ -35,6 +35,7 @@ Plugin 'xolox/vim-session'
 Plugin 'sickill/vim-monokai'
 Plugin 'vim-scripts/Wombat'
 Plugin 'junegunn/fzf.vim'
+Plugin 'eagletmt/neco-ghc'
 call vundle#end()
 
 augroup vimrc
@@ -112,6 +113,9 @@ set pastetoggle=<F7>
 
 " Right-click on selection should bring up a menu
 set mousemodel=popup_setpos
+
+" fix the flicker on tmux
+set showtabline=1
 
 " With this, the gui (gvim and macvim) now doesn't have the toolbar, the left
 " and right scrollbars and the menu.
@@ -222,6 +226,17 @@ autocmd vimrc FileType python
       \ set tabstop=4 |
       \ set shiftwidth=4 |
       \ set softtabstop=4
+let g:haskellmode_completion_ghc = 0
+
+autocmd vimrc FileType haskell
+      \ set tabstop=8 |
+      \ set expandtab |
+      \ set softtabstop=4 |
+      \ set shiftwidth=4 |
+      \ set shiftround |
+      \ setlocal omnifunc=necoghc#omnifunc
+
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 " unicode support (taken from http://vim.wikia.com/wiki/Working_with_Unicode)
 if has("multi_byte")
