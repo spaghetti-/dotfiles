@@ -15,7 +15,6 @@ Plugin 'Valloric/vim-operator-highlight'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-surround'
-" Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'elzr/vim-json'
 Plugin 'michaeljsmith/vim-indent-object'
@@ -278,7 +277,7 @@ cnoremap w!! w !sudo tee % >/dev/null
 noremap <Leader>q :qa<cr>
 
 " fzf
-noremap <Leader>p :Files<cr>
+noremap <Leader>o :Files<cr>
 
 " Switch to the directory of the open buffer
 noremap <leader>cd :cd %:p:h<cr>
@@ -334,4 +333,29 @@ let g:syntastic_mode_map = {
 
 let g:mta_use_matchparen_group = 0
 let g:ophigh_filetypes_to_ignore = { "spansdl": 1 }
+
+" hindent.vim
+" https://raw.githubusercontent.com/chrisdone/hindent/master/vim/hindent.vim
+if exists("g:loaded_hindent") || !executable("hindent")
+    finish
+endif
+let g:loaded_hindent = 1
+
+if !exists("g:hindent_style")
+    let g:hindent_style = "fundamental"
+endif
+
+function! FormatHaskell()
+    if !empty(v:char)
+        return 1
+    else
+        let l:filter = "hindent --style " . g:hindent_style
+        let l:command = v:lnum.','.(v:lnum+v:count-1).'!'.l:filter
+        execute l:command
+    endif
+endfunction
+
+if has("autocmd")
+  autocmd FileType haskell setlocal formatexpr=FormatHaskell()
+endif
 
