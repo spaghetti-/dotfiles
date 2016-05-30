@@ -55,6 +55,7 @@ set undofile            " stores undo state even when files are closed (in undod
 set cursorline          " highlights the current line
 set winaltkeys=no       " turns of the Alt key bindings to the gui menu
 set number
+set relativenumber
 " When you type the first tab, it will complete as much as possible, the second
 " tab hit will provide a list, the third and subsequent tabs will cycle through
 " completion options so you can complete the file without further keys
@@ -104,6 +105,10 @@ set undolevels=1000     " use many levels of undo
 set autoread            " auto read when a file is changed from the outside
 set mouse=a             " enables the mouse in all modes
 set foldlevelstart=99   " all folds open by default
+
+set lazyredraw
+set ttyfast
+set showtabline=1
 
 " toggles vim's paste mode; when we want to paste something into vim from a
 " different application, turning on paste mode prevents the insertion of extra
@@ -225,6 +230,12 @@ autocmd vimrc FileType python
       \ set tabstop=4 |
       \ set shiftwidth=4 |
       \ set softtabstop=4
+
+autocmd vimrc FileType cpp
+      \ set tabstop=4 |
+      \ set shiftwidth=4 |
+      \ set softtabstop=4
+
 let g:haskellmode_completion_ghc = 0
 
 autocmd vimrc FileType haskell
@@ -236,6 +247,7 @@ autocmd vimrc FileType haskell
       \ setlocal omnifunc=necoghc#omnifunc
 
 let g:ycm_semantic_triggers = {'haskell' : ['.']}
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
 " unicode support (taken from http://vim.wikia.com/wiki/Working_with_Unicode)
 if has("multi_byte")
@@ -247,11 +259,11 @@ if has("multi_byte")
   set fileencodings=ucs-bom,utf-8,latin1
 endif
 
-augroup vimrc
-  " Automatically delete trailing DOS-returns and whitespace on file open and
-  " write.
-  autocmd BufRead,BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
-augroup END
+"augroup vimrc
+"  " Automatically delete trailing DOS-returns and whitespace on file open and
+"  " write.
+"  autocmd BufRead,BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
+"augroup END
 
 set guifont=Monaco\ For\ Powerline:h12
 
@@ -355,7 +367,7 @@ function! FormatHaskell()
     endif
 endfunction
 
-if has("autocmd")
-  autocmd FileType haskell setlocal formatexpr=FormatHaskell()
-endif
+"#if has("autocmd")
+"#  autocmd FileType haskell setlocal formatexpr=FormatHaskell()
+"#endif
 
