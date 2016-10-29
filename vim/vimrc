@@ -14,13 +14,12 @@ Plugin 'Valloric/python-indent'
 Plugin 'Valloric/vim-operator-highlight'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-surround'
+Plugin 'anyakichi/vim-surround'
 Plugin 'godlygeek/tabular'
 Plugin 'elzr/vim-json'
 Plugin 'michaeljsmith/vim-indent-object'
 Plugin 'python.vim'
 Plugin 'python_match.vim'
-Plugin 'scrooloose/syntastic'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'sjl/gundo.vim'
 Plugin 'tpope/vim-fugitive'
@@ -34,7 +33,13 @@ Plugin 'xolox/vim-session'
 Plugin 'sickill/vim-monokai'
 Plugin 'vim-scripts/Wombat'
 Plugin 'junegunn/fzf.vim'
-Plugin 'eagletmt/neco-ghc'
+
+Plugin 'Raimondi/delimitMate'
+
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'edkolev/tmuxline.vim'
+
 call vundle#end()
 
 augroup vimrc
@@ -108,7 +113,6 @@ set foldlevelstart=99   " all folds open by default
 
 set lazyredraw
 set ttyfast
-set showtabline=1
 
 " toggles vim's paste mode; when we want to paste something into vim from a
 " different application, turning on paste mode prevents the insertion of extra
@@ -259,17 +263,20 @@ if has("multi_byte")
   set fileencodings=ucs-bom,utf-8,latin1
 endif
 
-"augroup vimrc
-"  " Automatically delete trailing DOS-returns and whitespace on file open and
-"  " write.
-"  autocmd BufRead,BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
-"augroup END
+augroup vimrc
+  " Automatically delete trailing DOS-returns and whitespace on file open and
+  " write.
+  autocmd BufRead,BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
+augroup END
 
 set guifont=Monaco\ For\ Powerline:h12
 
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+" python from powerline.vim import setup as powerline_setup
+" python powerline_setup()
+" python del powerline_setup
 
 
 let mapleader=" "
@@ -332,42 +339,5 @@ nmap s <Plug>(easymotion-s)
 au vimrc FileType gitcommit setlocal spell! spelllang=en_us
 let g:notes_directories = ['~/notes']
 
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '⚠'
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_python_flake8_args = '--select=F,C9 --max-complexity=10'
-
-let g:syntastic_mode_map = {
-       \ "mode": "active",
-       \ "active_filetypes": [],
-       \ "passive_filetypes": ["dart", "html"] }
-
 let g:mta_use_matchparen_group = 0
 let g:ophigh_filetypes_to_ignore = { "spansdl": 1 }
-
-" hindent.vim
-" https://raw.githubusercontent.com/chrisdone/hindent/master/vim/hindent.vim
-if exists("g:loaded_hindent") || !executable("hindent")
-    finish
-endif
-let g:loaded_hindent = 1
-
-if !exists("g:hindent_style")
-    let g:hindent_style = "fundamental"
-endif
-
-function! FormatHaskell()
-    if !empty(v:char)
-        return 1
-    else
-        let l:filter = "hindent --style " . g:hindent_style
-        let l:command = v:lnum.','.(v:lnum+v:count-1).'!'.l:filter
-        execute l:command
-    endif
-endfunction
-
-"#if has("autocmd")
-"#  autocmd FileType haskell setlocal formatexpr=FormatHaskell()
-"#endif
-
