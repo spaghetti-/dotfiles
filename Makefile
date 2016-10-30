@@ -1,4 +1,4 @@
-.PHONY: vim tmux zsh
+.PHONY: vim tmux zsh ros
 
 vim:
 	ln -s $(shell pwd)/vim/vimrc $(HOME)/.vimrc
@@ -8,3 +8,6 @@ tmux:
 
 zsh:
 	ln -s $(shell pwd)/zsh/zshrc $(HOME)/.zshrc
+
+ros:
+	ln -s $(shell pwd)/ros/ros.zsh $(HOME)/.ros.zsh
