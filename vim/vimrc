@@ -39,7 +39,9 @@ Plugin 'scrooloose/syntastic'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'edkolev/tmuxline.vim'
+Plugin 'rdnetto/YCM-Generator'
 
+Plugin 'jeaye/color_coded'
 call vundle#end()
 
 augroup vimrc
@@ -240,7 +242,7 @@ autocmd vimrc FileType java
       \ set shiftwidth=4 |
       \ set softtabstop=4
 
-
+let delimitMate_expand_cr=1
 
 let g:haskellmode_completion_ghc = 0
 
