@@ -1,10 +1,4 @@
-![](http://i.imgur.com/Qs2a2n0.png)
-![](http://i.imgur.com/AQxkySl.png)
+![](https://i.imgur.com/lHh9aFA.png)
+![](https://i.imgur.com/8JH7AhY.png)
 
-```
-brew cask install iterm2
-brew install python
-pip install powerline-status
-brew install vim --with-python --override-system-vi
-git clone https://github.com/Tarrasch/antigen-hs.git ~/.zsh/antigen-hs/
-```
+to install, clone, set up iterm2, vim etc and run the Makefile
