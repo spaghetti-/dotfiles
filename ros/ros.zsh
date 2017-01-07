@@ -1,8 +1,8 @@
 #!/bin/zsh
 
-export ROS_LANG_DISABLE=genlisp:gennodejs
+export ROS_LANG_DISABLE=genlisp
 
-source /opt/ros/kinetic/setup.zsh
+source /opt/ros/jade/setup.zsh
 source ~/repos/bbasv/devel/setup.zsh
 
 WIFI_IP=`ipconfig getifaddr en0`
@@ -18,5 +18,5 @@ export export ROS_IP=$CURRENT_IP
 export ROS_HOSTNAME=`hostname`
 
 function boat() {
-  ROS_MASTER_URI=http://192.168.1.131:11311
+  ROS_MASTER_URI=http://192.168.1.132:11311
 }
