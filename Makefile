@@ -8,6 +8,7 @@ tmux:
 
 zsh:
 	ln -s $(shell pwd)/zsh/zshrc $(HOME)/.zshrc
+	ln -s $(shell pwd)/zsh/zshenv $(HOME)/.zshenv
 
 ros:
 	ln -s $(shell pwd)/ros/ros.zsh $(HOME)/.ros.zsh

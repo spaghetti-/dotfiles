@@ -1,22 +1,16 @@
-source $(brew --prefix)/share/antigen/antigen.zsh
-antigen use oh-my-zsh
+source /usr/local/share/antigen/antigen.zsh
 antigen bundle git
 antigen bundle pip
 antigen bundle osx
 
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
-
+#
 antigen theme pure
 antigen apply
 
-DISABLE_AUTO_TITLE="true"
-COMPLETION_WAITING_DOTS="true"
-
-export EDITOR="vim"
-export SVN_EDITOR="$EDITOR"
-export VISUAL="$EDITOR"
-export GIT_EDITOR="$EDITOR"
+export DISABLE_AUTO_TITLE="true"
+export COMPLETION_WAITING_DOTS="true"
 
 launchctl setenv PATH $PATH
 
@@ -44,5 +38,4 @@ export FZF_DEFAULT_OPTS="
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.ros.zsh ] && source ~/.ros.zsh
-
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
