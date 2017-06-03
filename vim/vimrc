@@ -43,6 +43,12 @@ Plugin 'rdnetto/YCM-Generator'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'lervag/vimtex'
+Plugin 'scrooloose/nerdtree'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'Quramy/tsuquyomi'
+Plugin 'Shougo/vimproc.vim'
+
+Plugin 'nsf/gocode'
 
 call vundle#end()
 
@@ -292,8 +298,9 @@ autocmd vimrc FileType haskell
       \ set shiftround |
       \ setlocal omnifunc=necoghc#omnifunc
 
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
+let g:ycm_semantic_triggers = {'haskell' : ['.'], 'typescript': ['.']}
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_server_log_level = 'debug'
 
 " unicode support (taken from http://vim.wikia.com/wiki/Working_with_Unicode)
 if has("multi_byte")
@@ -323,7 +330,7 @@ let g:airline#extensions#tabline#enabled = 1
 
 
 let mapleader=" "
-let maplocalleader="-"
+let maplocalleader="\\"
 
 nnoremap / /\v
 vnoremap / /\v
@@ -401,3 +408,6 @@ let g:syntastic_mode_map = {
        \ "passive_filetypes": ["dart", "html"] }
 
 let g:latex_view_general_viewer = 'open'
+map <Leader>n :NERDTreeToggle<CR>
+let g:vimtex_latexmk_options = '-pdf -shell-escape -verbose -file-line-error -synctex=1 -interaction=nonstopmode'
+let g:tex_flavor = 'latex'

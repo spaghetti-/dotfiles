@@ -2,8 +2,8 @@
 
 export ROS_LANG_DISABLE=genlisp
 
-source /opt/ros/jade/setup.zsh
-source ~/repos/bbasv/devel/setup.zsh
+source /opt/ros/kinetic/setup.zsh
+source ~/repos/bbauv/devel/setup.zsh
 
 WIFI_IP=`ipconfig getifaddr en0`
 LAN_IP=`ipconfig getifaddr en4`
@@ -19,4 +19,8 @@ export ROS_HOSTNAME=`hostname`
 
 function boat() {
   ROS_MASTER_URI=http://192.168.1.132:11311
+}
+
+function bbauv() {
+  ROS_MASTER_URI=http://192.168.1.130:11311
 }

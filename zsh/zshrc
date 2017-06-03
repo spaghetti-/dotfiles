@@ -12,7 +12,14 @@ antigen apply
 export DISABLE_AUTO_TITLE="true"
 export COMPLETION_WAITING_DOTS="true"
 
+export GOPATH=/Users/alex/repos/goroot
+export PATH=$PATH:$GOPATH/bin
+
 launchctl setenv PATH $PATH
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=100000
 
 # This turns of zsh's "helpful" autocorrect feature
 unsetopt correct_all
@@ -29,7 +36,6 @@ setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history 
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 
-
 export FZF_DEFAULT_OPTS="
 --extended-exact
 --color fg:252,bg:233,hl:67,fg+:252,bg+:235,hl+:81
@@ -38,4 +44,16 @@ export FZF_DEFAULT_OPTS="
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.ros.zsh ] && source ~/.ros.zsh
+
+function dl () {
+  axel -a -n 12 -H 'Authorization: Basic Hash' $1
+}
+
+export PATH="/usr/local/opt/qt/bin:$PATH"
+export PATH="/usr/local/opt/apr/bin:$PATH"
+export PATH="/usr/local/opt/apr-util/bin:$PATH"
+
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+#export NVM_DIR="$HOME/.nvm"
+#. "/usr/local/opt/nvm/nvm.sh"
