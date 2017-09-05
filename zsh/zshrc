@@ -1,4 +1,5 @@
 source /usr/local/share/antigen/antigen.zsh
+antigen use oh-my-zsh
 antigen bundle git
 antigen bundle pip
 antigen bundle osx
@@ -11,9 +12,6 @@ antigen apply
 
 export DISABLE_AUTO_TITLE="true"
 export COMPLETION_WAITING_DOTS="true"
-
-export GOPATH=/Users/alex/repos/goroot
-export PATH=$PATH:$GOPATH/bin
 
 launchctl setenv PATH $PATH
 
@@ -52,8 +50,13 @@ function dl () {
 export PATH="/usr/local/opt/qt/bin:$PATH"
 export PATH="/usr/local/opt/apr/bin:$PATH"
 export PATH="/usr/local/opt/apr-util/bin:$PATH"
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+export PATH="/usr/local/opt/opencv3/bin:$PATH"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 #export NVM_DIR="$HOME/.nvm"
 #. "/usr/local/opt/nvm/nvm.sh"
+#
+
+export PATH="/usr/local/opt/libxml2/bin:$PATH"
