@@ -2,7 +2,7 @@
 
 export ROS_LANG_DISABLE=genlisp
 
-source /opt/ros/kinetic/setup.zsh
+source /opt/ros/setup.zsh
 source ~/repos/bbauv/devel/setup.zsh
 
 WIFI_IP=`ipconfig getifaddr en0`

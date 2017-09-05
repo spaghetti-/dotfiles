@@ -192,6 +192,7 @@ set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusl
 " this makes the color after the textwidth column highlighted
 set colorcolumn=+1
 
+
 " options for formatting text; see :h formatoptions
 set formatoptions=tcroqnj
 
@@ -337,6 +338,9 @@ vnoremap / /\v
 
 " fast saving
 nnoremap <leader>w :w!<cr>
+
+" select all
+map <leader>a <esc>ggVG<CR>
 
 " This command will allow us to save a file we don't have permission to save
 " *after* we have already opened it. Super useful.
