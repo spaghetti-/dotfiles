@@ -1,14 +1,16 @@
 .PHONY: vim tmux zsh ros
 
 vim:
-	ln -s $(shell pwd)/vim/vimrc $(HOME)/.vimrc
+	ln -sf $(shell pwd)/vim/vimrc $(HOME)/.vimrc
 
 tmux:
-	ln -s $(shell pwd)/tmux/tmux.conf $(HOME)/.tmux.conf
+	ln -sf $(shell pwd)/tmux/tmux.conf $(HOME)/.tmux.conf
+	ln -sf $(shell pwd)/tmux/tbatt.zsh /usr/local/bin/tbatt
+	chmod +x /usr/local/bin/tbatt
 
 zsh:
-	ln -s $(shell pwd)/zsh/zshrc $(HOME)/.zshrc
-	ln -s $(shell pwd)/zsh/zshenv $(HOME)/.zshenv
+	ln -sf $(shell pwd)/zsh/zshrc $(HOME)/.zshrc
+	ln -sf $(shell pwd)/zsh/zshenv $(HOME)/.zshenv
 
 ros:
-	ln -s $(shell pwd)/ros/ros.zsh $(HOME)/.ros.zsh
+	ln -sf $(shell pwd)/ros/ros.zsh $(HOME)/.ros.zsh
