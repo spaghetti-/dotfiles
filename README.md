@@ -1,4 +1,7 @@
-![](https://i.imgur.com/lHh9aFA.png)
-![](https://i.imgur.com/8JH7AhY.png)
+To install, clone and look at what `Makefile` does before invoking commands from it.
 
-to install, clone, set up iterm2, vim etc and run the Makefile
+Some of the configs will only work on MacOS with zsh as the native shell.
+
+Sample screenshot:
+
+![](https://i.imgur.com/eOZSeKY.jpg)
