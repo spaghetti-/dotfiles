@@ -60,3 +60,4 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 #
 
 export PATH="/usr/local/opt/libxml2/bin:$PATH"
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
