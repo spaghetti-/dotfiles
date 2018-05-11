@@ -3,7 +3,7 @@ while read k v; do
   case $k in
     "ExternalConnected")
       if [[ $v == "Yes" ]]; then
-        AC=⚡
+        AC=C
       else
         AC=' '
       fi
