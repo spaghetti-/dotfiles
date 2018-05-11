@@ -61,3 +61,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 export PATH="/usr/local/opt/libxml2/bin:$PATH"
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
+export PATH=$PATH:$HOME/repos/arcanist/bin
+export GOPATH=$HOME/go
+
+function envgrab () {
+  source $GOPATH/src/gitlab.myteksi.net/gophers/go/scripts/set-env.sh ci
+}

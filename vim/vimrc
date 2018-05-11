@@ -56,6 +56,8 @@ Plugin 'xolox/vim-pyref'
 Plugin 'xolox/vim-session'
 " Colorscheme
 Plugin 'vim-scripts/Wombat'
+" Colorscheme
+Plugin 'morhetz/gruvbox'
 " Fuzzy search
 Plugin 'junegunn/fzf.vim'
 " Autocloses paranthesis etc.
@@ -71,6 +73,12 @@ Plugin 'honza/vim-snippets'
 Plugin 'lervag/vimtex'
 " File browser, toggle by Leader n
 Plugin 'scrooloose/nerdtree'
+" Ansible syntax highlight
+Plugin 'pearofducks/ansible-vim'
+
+" vim-go
+Plugin 'fatih/vim-go'
+
 call vundle#end()
 
 augroup vimrc
@@ -79,7 +87,13 @@ augroup END
 
 filetype plugin indent on
 
-colorscheme wombat
+" first two lines below are to force vim to detect truecolor even in tmux
+let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
+
+colorscheme gruvbox
+
 set scrolloff=2         " 2 lines above/below cursor when scrolling
 set showmatch           " show matching bracket (briefly jump)
 set matchtime=2         " reduces matching paren blink time from the 5[00]ms def
@@ -298,7 +312,6 @@ endif
 au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger     . " <C-R>=g:UltiSnips_Complete()<cr>"
 au InsertEnter * exec "inoremap <silent> " .     g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
 
-" The stupid python filetype plugin overrides our settings!
 autocmd vimrc FileType python
       \ set tabstop=4 |
       \ set shiftwidth=4 |
@@ -346,11 +359,6 @@ set guifont=Monaco\ For\ Powerline:h12
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-
-" python from powerline.vim import setup as powerline_setup
-" python powerline_setup()
-" python del powerline_setup
-
 
 let mapleader=" "
 let maplocalleader="\\"
@@ -428,13 +436,36 @@ let g:syntastic_python_flake8_args = '--max-line-length=80 ' .
       \ '--max-complexity=10 --ignore=E111,E114,E121,E125,E126,E127,E128,E129,' .
       \ 'E131,E133,E201,E202,E203,E211,E221,E222,E241,E251,E261,E303,E402,W503'
 
-let g:syntastic_mode_map = {
-       \ "mode": "active",
-       \ "active_filetypes": [],
-       \ "passive_filetypes": ["dart", "html"] }
+let g:syntastic_go_checkers = ['govet', 'errcheck', 'go']
 
 let g:latex_view_general_viewer = 'open'
 map <Leader>n :NERDTreeToggle<CR>
 map <Leader>u :GundoToggle<CR>
 let g:vimtex_latexmk_options = '-pdf -shell-escape -verbose -file-line-error -synctex=1 -interaction=nonstopmode'
 let g:tex_flavor = 'latex'
+
+" custom ansible playbook location
+au BufRead,BufNewFile /Users/alex.john/repos/grab/deploy/*.yml set filetype=yaml.ansible
+let g:ansible_attribute_highlight = "ob"
+
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+autocmd FileType go nmap <leader>t  <Plug>(go-test)
+autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+autocmd FileType go nmap <Leader>gd :GoDef<CR>
+let g:go_fmt_command = "goimports"
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+
