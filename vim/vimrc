@@ -1,131 +1,112 @@
-" vim configuration
-" lots of stuff borrowed from: github.com/Valloric, Thank you!
+" For vim-plug auto install
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-set nocompatible
-filetype off
+call plug#begin('~/.vim/plugged')
+" Plug 'dracula/vim'
+Plug 'morhetz/gruvbox'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'scrooloose/nerdcommenter'
 
-set rtp+=~/.vim/bundle/Vundle.vim
-set rtp+=/usr/local/opt/fzf
-call vundle#begin()
+" Autocomplete
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
 
-Plugin 'VundleVim/Vundle.vim'
-" Highlight matching tags in HTML/XML etc
-Plugin 'Valloric/MatchTagAlways'
-Plugin 'Valloric/python-indent'
-Plugin 'Valloric/vim-operator-highlight'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'Valloric/YouCompleteMe'
-" Best way to surround words, sections with certain characters 
-" For example, char -> ysiw( -> (char)
-" cs -> change surround
-" ds -> delete surround
-" iw is a text object (inner word) (motion)
-Plugin 'tpope/vim-surround'
-" Easy way to tabularize text
-" :Tabularize \{pattern (regex)}
-Plugin 'godlygeek/tabular'
-" Better JSON highlighting
-Plugin 'elzr/vim-json'
-" Python helper
-Plugin 'michaeljsmith/vim-indent-object'
-" This seems really outdated and I should remove it at some point
-Plugin 'python.vim'
-" Python folding definitions
-" zM -> fold all
-" zi enable and turn off folding
-" za open and close current fold
-" zc close current fold
-" zR open all folds
-Plugin 'tmhedberg/SimpylFold'
-" Makes % useful for python
-Plugin 'python_match.vim'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-" Visualize the undo tree with diffs.
-" I've mapped Leader u to toggle fast
-" Documentation here: https://sjl.bitbucket.io/gundo.vim/
-Plugin 'sjl/gundo.vim'
-" Git helper
-" All commands begin with G
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-git'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-repeat'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-notes'
-Plugin 'xolox/vim-pyref'
-Plugin 'xolox/vim-session'
-" Colorscheme
-Plugin 'vim-scripts/Wombat'
-" Colorscheme
-Plugin 'morhetz/gruvbox'
-" Fuzzy search
-Plugin 'junegunn/fzf.vim'
-" Autocloses paranthesis etc.
-Plugin 'Raimondi/delimitMate'
-Plugin 'scrooloose/syntastic'
-" Better vim status line
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-" Snippets and extra repo for snippets
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-" Latex helper
-Plugin 'lervag/vimtex'
-" File browser, toggle by Leader n
-Plugin 'scrooloose/nerdtree'
-" Ansible syntax highlight
-Plugin 'pearofducks/ansible-vim'
+Plug 'zchee/deoplete-jedi'
 
-" vim-go
-Plugin 'fatih/vim-go'
+" Close structures properly
+Plug 'tpope/vim-surround'
+Plug 'Raimondi/delimitMate'
 
-call vundle#end()
+" Go, occupational hazard
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'zchee/deoplete-go', { 'do': 'make'}
+call plug#end()
+
+" Color stuff
+" colorscheme dracula
+colorscheme gruvbox
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme = 'gruvbox'
+
 
 augroup vimrc
-	  autocmd!
+	autocmd!
 augroup END
 
-filetype plugin indent on
-
-" first two lines below are to force vim to detect truecolor even in tmux
-let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-set termguicolors
-
-colorscheme gruvbox
-
-set scrolloff=2         " 2 lines above/below cursor when scrolling
-set showmatch           " show matching bracket (briefly jump)
-set matchtime=2         " reduces matching paren blink time from the 5[00]ms def
-set showmode            " show mode in status bar (insert/replace/...)
-set showcmd             " show typed command in status bar
-set ruler               " show cursor position in status bar
-set title               " show file in titlebar
-set undofile            " stores undo state even when files are closed (in undodir)
-set cursorline          " highlights the current line
-set winaltkeys=no       " turns of the Alt key bindings to the gui menu
-set number
 set relativenumber
+
+set lazyredraw
+set ttyfast
+
+let mapleader=" "
+let maplocalleader="\\"
+
+" NERDCommenter stuff
+
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDToggleCheckAllLines = 1
+
+" Paste stuff
+
+if has('unnamedplus')
+  " By default, Vim will not use the system clipboard when yanking/pasting to
+  " the default register. This option makes Vim use the system default
+  " clipboard.
+  " Note that on X11, there are _two_ system clipboards: the "standard" one, and
+  " the selection/mouse-middle-click one. Vim sees the standard one as register
+  " '+' (and this option makes Vim use it by default) and the selection one as
+  " '*'.
+  " See :h 'clipboard' for details.
+  set clipboard=unnamedplus,unnamed
+else
+  " Vim now also uses the selection system clipboard for default yank/paste.
+  set clipboard+=unnamed
+endif
+
+" Sensible defaults and stuff borrowed from
+" github.com/Valloric
+" I grew used to a lot of that stuff so I'm 'borrowing' them again
+
+" Editor specific stuff
+
+set scrolloff=2     " 2 lines above/below cursor when scrolling
+set showmatch       " show matching bracket (briefly jump)
+set matchtime=2     " reduces matching paren blink time from the 5[00]ms def
+set showmode        " show mode in status bar (insert/replace/...)
+set showcmd         " show typed command in status bar
+set ruler           " show cursor position in status bar
+set title           " show file in titlebar
+                    " also useful with rofi
+set undofile        " stores undo state even when files are closed (in undodir)
+set cursorline      " highlights the current line
+set winaltkeys=no   " turns of the Alt key bindings to the gui menu
+
 " When you type the first tab, it will complete as much as possible, the second
 " tab hit will provide a list, the third and subsequent tabs will cycle through
 " completion options so you can complete the file without further keys
 set wildmode=longest,list,full
 set wildmenu            " completion with menu
-" This changes the default display of tab and CR chars in list mode
-set listchars=tab:▸\ ,eol:¬
-
-" The "longest" option makes completion insert the longest prefix of all
 " the possible matches; see :h completeopt
 set completeopt=menu,menuone,longest
 set switchbuf=useopen,usetab
 
-" EDITOR SETTINGS
+" Force vim to detect 256 colors even in tmux
+let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
+
 set ignorecase          " case insensitive searching
 set smartcase           " but become case sensitive if you type uppercase characters
-" this can cause problems with other filetypes
-" see comment on this SO question http://stackoverflow.com/questions/234564/tab-key-4-spaces-and-auto-indent-after-curly-braces-in-vim/234578#234578
-"set smartindent         " smart auto indenting
-set autoindent          " on new lines, match indent of previous line
 set copyindent          " copy the previous indentation on autoindenting
 set cindent             " smart indenting for c-like code
 set cino=b1,g0,N-s,t0,(0,W4  " see :h cinoptions-values
@@ -157,9 +138,6 @@ set mouse=a             " enables the mouse in all modes
 set foldmethod=syntax   " enable folding if the method is defined by ft
 set foldlevelstart=99   " all folds open by default
 
-set lazyredraw
-set ttyfast
-
 " toggles vim's paste mode; when we want to paste something into vim from a
 " different application, turning on paste mode prevents the insertion of extra
 " whitespace
@@ -186,10 +164,6 @@ set guioptions-=M
 let g:is_posix = 1
 set shortmess=a
 
-" this solves the "unable to open swap file" errors on Win7
-set dir=~/tmp,/var/tmp,/tmp,$TEMP
-set undodir=~/tmp,/var/tmp,/tmp,$TEMP
-
 " Look for tag def in a "tags" file in the dir of the current file, then for
 " that same file in every folder above the folder of the current file, until the
 " root.
@@ -198,11 +172,6 @@ set tags=./tags;/
 " turns off all error bells, visual or otherwise
 set noerrorbells visualbell t_vb=
 autocmd vimrc GUIEnter * set visualbell t_vb=
-
-" Switch syntax highlighting on, when the terminal has colors
-if &t_Co > 2 || has("gui_running")
-  syntax on
-endif
 
 " none of these should be word dividers, so make them not be
 set iskeyword+=_,$,@,%,#
@@ -214,7 +183,6 @@ set cmdheight=2
 set whichwrap+=<,>,h,l
 set nohlsearch          " do not highlight searched-for phrases
 set incsearch           " ...but do highlight-as-I-type the search string
-set gdefault            " this makes search/replace global by default
 
 " enforces a specified line-length and auto inserts hard line breaks when we
 " reach the limit; in Normal mode, you can reformat the current paragraph with
@@ -223,7 +191,8 @@ set textwidth=80
 
 set laststatus=2 " Always display the statusline in all windows
 set showtabline=2 " Always display the tabline, even if there is only one tab
-set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
+set noshowmode " Hide the default mode text
+               "   (e.g. -- INSERT -- below the statusline)
 
 " this makes the color after the textwidth column highlighted
 set colorcolumn=+1
@@ -239,132 +208,6 @@ if v:version >= 704
   " faster.
   set regexpengine=1
 endif
-
-" The alt (option) key on macs now behaves like the 'meta' key. This means we
-" can now use <m-x> or similar as maps. This is buffer local, and it can easily
-" be turned off when necessary (for instance, when we want to input special
-" characters) with :set nomacmeta.
-if has("gui_macvim")
-  set macmeta
-endif
-
-if has('unnamedplus')
-  " By default, Vim will not use the system clipboard when yanking/pasting to
-  " the default register. This option makes Vim use the system default
-  " clipboard.
-  " Note that on X11, there are _two_ system clipboards: the "standard" one, and
-  " the selection/mouse-middle-click one. Vim sees the standard one as register
-  " '+' (and this option makes Vim use it by default) and the selection one as
-  " '*'.
-  " See :h 'clipboard' for details.
-  set clipboard=unnamedplus,unnamed
-else
-  " Vim now also uses the selection system clipboard for default yank/paste.
-  set clipboard+=unnamed
-endif
-
-
-" .tpl files are HTML for us
-autocmd vimrc BufEnter *.tpl setf html
-
-" .acl files are YAML
-autocmd vimrc BufEnter *.acl setf yaml
-
-
-" In UltiSnips snippet files, we want actual tabs instead of spaces for indents.
-" US will use those tabs and convert them to spaces if expandtab is set when the
-" user wants to insert the snippet.
-autocmd vimrc FileType snippets set noexpandtab
-
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res == 0
-    if pumvisible()
-      return "\<C-n>"
-    else
-      call UltiSnips#JumpForwards()
-      if g:ulti_jump_forwards_res == 0
-        return "\<TAB>"
-      endif
-    endif
-  endif
-  return ""
-endfunction
-
-function! g:UltiSnips_Reverse()
-  call UltiSnips#JumpBackwards()
-  if g:ulti_jump_backwards_res == 0
-    return "\<C-P>"
-  endif
-
-  return ""
-endfunction
-
-
-if !exists("g:UltiSnipsJumpForwardTrigger")
-  let g:UltiSnipsJumpForwardTrigger = "<tab>"
-endif
-
-if !exists("g:UltiSnipsJumpBackwardTrigger")
-  let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-endif
-
-au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger     . " <C-R>=g:UltiSnips_Complete()<cr>"
-au InsertEnter * exec "inoremap <silent> " .     g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
-
-autocmd vimrc FileType python
-      \ set tabstop=4 |
-      \ set shiftwidth=4 |
-      \ set softtabstop=4
-
-autocmd vimrc FileType java
-      \ set tabstop=4 |
-      \ set shiftwidth=4 |
-      \ set softtabstop=4
-
-let delimitMate_expand_cr=1
-
-let g:haskellmode_completion_ghc = 0
-
-autocmd vimrc FileType haskell
-      \ set tabstop=8 |
-      \ set expandtab |
-      \ set softtabstop=4 |
-      \ set shiftwidth=4 |
-      \ set shiftround |
-      \ setlocal omnifunc=necoghc#omnifunc
-
-let g:ycm_semantic_triggers = {'haskell' : ['.'], 'typescript': ['.']}
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-let g:ycm_server_log_level = 'debug'
-
-" unicode support (taken from http://vim.wikia.com/wiki/Working_with_Unicode)
-if has("multi_byte")
-  if &termencoding == ""
-    let &termencoding = &encoding
-  endif
-  set encoding=utf-8
-  setglobal fileencoding=utf-8
-  set fileencodings=ucs-bom,utf-8,latin1
-endif
-
-" Many open source projects don't like this
-" augroup vimrc
-"   " Automatically delete trailing DOS-returns and whitespace on file open and
-"   " write.
-"   autocmd BufRead,BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
-" augroup END
-
-set guifont=Monaco\ For\ Powerline:h12
-
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-
-let mapleader=" "
-let maplocalleader="\\"
-
-nnoremap / /\v
-vnoremap / /\v
 
 " fast saving
 nnoremap <leader>w :w!<cr>
@@ -394,78 +237,29 @@ noremap <leader>ss :setlocal spell! spelllang=en_us<cr>
 vnoremap < <gv
 vnoremap > >gv
 
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_color_change_percent = 7
+" Specific settings for python
+autocmd vimrc FileType python
+      \ set tabstop=4 |
+      \ set shiftwidth=4 |
+      \ set softtabstop=4
 
-nnoremap <F5> :GundoToggle<CR>
-let g:gundo_width=80
+" deoplete options
+let g:deoplete#enable_at_startup = 0
+autocmd InsertEnter * call deoplete#enable()
+let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python3_host_skip_check = 1
+" complete on <Tab>
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
-let g:session_autoload        = 'no'
-let g:session_autosave        = 'yes'
-let g:session_default_to_last = 'yes'
-let g:session_directory       = '~/tmp/vim/sessions'
+let delimitMate_expand_cr = 1
 
+" Many open source projects don't like this
+augroup vimrc
+  " Automatically delete trailing DOS-returns and whitespace on file open and
+  " write.
+  autocmd BufRead,BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
+augroup END
 
-nnoremap <Leader>a= :Tabularize /=<CR>
-vnoremap <Leader>a= :Tabularize /=<CR>
-nnoremap <Leader>a/ :Tabularize /\/\//l2c1l0<CR>
-vnoremap <Leader>a/ :Tabularize /\/\//l2c1l0<CR>
-nnoremap <Leader>a, :Tabularize /,/l0r1<CR>
-vnoremap <Leader>a, :Tabularize /,/l0r1<CR>
-
-let g:EasyMotion_leader_key = '<Leader>e'
-
-" Provides the equivalent of <Leader>s, which is forwards/backwards search for a
-" character.
-" has to be 'nmap', 'noremap' doesn't work
-nmap s <Plug>(easymotion-s)
-
-au vimrc FileType gitcommit setlocal spell! spelllang=en_us
-let g:notes_directories = ['~/notes']
-
-let g:mta_use_matchparen_group = 0
-let g:ophigh_filetypes_to_ignore = { "spansdl": 1 }
-
-let g:EclimCompletionMethod = 'omnifunc'
-
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '⚠'
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_python_flake8_args = '--max-line-length=80 ' .
-      \ '--max-complexity=10 --ignore=E111,E114,E121,E125,E126,E127,E128,E129,' .
-      \ 'E131,E133,E201,E202,E203,E211,E221,E222,E241,E251,E261,E303,E402,W503'
-
-let g:syntastic_go_checkers = ['govet', 'errcheck', 'go']
-
-let g:latex_view_general_viewer = 'open'
-map <Leader>n :NERDTreeToggle<CR>
-map <Leader>u :GundoToggle<CR>
-let g:vimtex_latexmk_options = '-pdf -shell-escape -verbose -file-line-error -synctex=1 -interaction=nonstopmode'
-let g:tex_flavor = 'latex'
-
-" custom ansible playbook location
-au BufRead,BufNewFile /Users/alex.john/repos/grab/deploy/*.yml set filetype=yaml.ansible
-let g:ansible_attribute_highlight = "ob"
-
-function! s:build_go_files()
-  let l:file = expand('%')
-  if l:file =~# '^\f\+_test\.go$'
-    call go#test#Test(0, 1)
-  elseif l:file =~# '^\f\+\.go$'
-    call go#cmd#Build(0)
-  endif
-endfunction
-
-autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
-autocmd FileType go nmap <leader>t  <Plug>(go-test)
-autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
-autocmd FileType go nmap <Leader>gd :GoDef<CR>
-let g:go_fmt_command = "goimports"
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_extra_types = 1
-
+let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+let g:deoplete#sources#go#package_dot = 1
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
