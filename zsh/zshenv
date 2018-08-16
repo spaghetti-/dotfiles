@@ -1,18 +1,1 @@
-skip_global_compinit=1
-
-export EDITOR="vim"
-export SVN_EDITOR="$EDITOR"
-export VISUAL="$EDITOR"
-export GIT_EDITOR="$EDITOR"
-
-
-function syncm () {
-  python -m compileall /Users/alex/repos/bbauv/src/core
-  if [ $? -eq 0 ]; then
-    echo "\033[38;5;28m[*] OK, syncing\e[0m"
-    find /Users/alex/repos/bbauv/src/core -type f -name "*.pyc" | xargs rm
-    rsync -avzu --progress /Users/alex/repos/bbauv/src/core bbauvsbc1@bbauv:/home/bbauvsbc1/bbauv/src/
-  else
-    echo "\033[38;5;160m[!] COMPILE ERROR, NOT SYNCING"
-  fi
-}
+export EDITOR=vim
