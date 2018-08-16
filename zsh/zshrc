@@ -1,16 +1,24 @@
 fpath=($HOME/repos/dotfiles/zsh $fpath)
-zstyle ':completion:*' completer _expand _complete _ignored _correct
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle -e ':completion:*:approximate:*' \
+  max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
 zstyle :compinstall filename "$HOME/.zshrc"
 
-autoload -Uz compinit promptinit
-compinit
-promptinit; prompt pure
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory autocd beep extendedglob notify prompt_subst
 unsetopt nomatch
 bindkey -v
+
+# hosts=("ITSG002784-MAC.local" "trixie")
+# if [[ ${hosts[(i)$HOST]} -le ${#hosts} ]]; then ; echo yes ; else ; echo no ; fi
+autoload -Uz compinit promptinit
+compinit
+promptinit; prompt pure
 
 ## CUSTOM FUNCTIONS
 # Install fzf
@@ -36,6 +44,4 @@ function sgtoname () {
 
 ## END CUSTOM FUNCTIONS
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-
+source $HOME/repos/dotfiles/zsh/zsh-syntax-highlighting.zsh
