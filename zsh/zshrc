@@ -12,8 +12,7 @@ setopt appendhistory autocd beep extendedglob notify prompt_subst
 unsetopt nomatch
 bindkey -v
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
+## CUSTOM FUNCTIONS
 # Install fzf
 export FZF_DEFAULT_OPTS="
 --extended-exact
@@ -21,3 +20,22 @@ export FZF_DEFAULT_OPTS="
 --color info:144,prompt:161,spinner:135,pointer:135,marker:118
 "
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+aws-ips () {
+  aws --output text --region ap-southeast-1 ec2 describe-instances \
+    --filters "Name=tag:Name,Values=${1}" | grep -i --color PRIVATEIPADDRESSES \
+    | awk '{ print $4 }' | tr '\n' ' '
+}
+
+alias tf="terraform"
+
+function sgtoname () {
+  aws --profile grab ec2 describe-security-groups --output json \
+    --group-id "$1" | jq ".SecurityGroups[0].GroupName"
+}
+
+## END CUSTOM FUNCTIONS
+
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+
