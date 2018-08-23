@@ -11,7 +11,10 @@ Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdcommenter'
-
+Plug 'scrooloose/nerdtree'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-fugitive'
 " Autocomplete
 Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
@@ -26,16 +29,31 @@ Plug 'Raimondi/delimitMate'
 " Go, occupational hazard
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'fatih/vim-hclfmt'
+
+Plug 'hashivim/vim-terraform'
+Plug 'vim-syntastic/syntastic'
+Plug 'juliosueiras/vim-terraform-completion'
+
+Plug 'https://github.com/ervandew/supertab.git'
+let g:SuperTabDefaultCompletionType = "<c-n>" " Make the tabing on completion menu go from top to bottom
+let g:SuperTabClosePreviewOnPopupClose = 1 " Close the preview when completion ends
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
+Plug 'easymotion/vim-easymotion'
 call plug#end()
+
+set encoding=utf-8
 
 " Color stuff
 " colorscheme dracula
+set background=dark
 colorscheme gruvbox
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme = 'gruvbox'
 
-
+let g:deoplete#sources#jedi#python_path = "/usr/local/bin/python3"
 augroup vimrc
 	autocmd!
 augroup END
@@ -229,7 +247,7 @@ noremap <Leader>o :Files<cr>
 noremap <leader>cd :cd %:p:h<cr>
 
 " Toggle and untoggle spell checking
-noremap <leader>ss :setlocal spell! spelllang=en_us<cr>
+" noremap <leader>ss :setlocal spell! spelllang=en_us<cr>
 
 " Using '<' and '>' in visual mode to shift code by a tab-width left/right by
 " default exits visual mode. With this mapping we remain in visual mode after
@@ -263,3 +281,112 @@ augroup END
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#package_dot = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+
+" NERDtree
+nnoremap <leader>n :NERDTreeToggle<CR>
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" (Optional)Remove Info(Preview) window
+" set completeopt-=preview
+
+" (Optional)Hide Info(Preview) window after completions
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" (Optional) Enable terraform plan to be include in filter
+let g:syntastic_terraform_tffilter_plan = 1
+
+" (Optional) Default: 0, enable(1)/disable(0) plugin's keymapping
+let g:terraform_completion_keys = 1
+
+" (Optional) Default: 1, enable(1)/disable(0) terraform module registry completion
+let g:terraform_registry_module_completion = 0
+let g:deoplete#omni_patterns = {}
+let g:deoplete#omni_patterns.terraform = '[^ *\t"{=$]\w*'
+let g:terraform_remap_spacebar=0
+let g:terraform_completion_keys = 0
+
+let g:UltiSnipsExpandTrigger = '<NOP>'
+let g:UltiSnipsJumpForwardTrigger = '<NOP>'
+let g:UltiSnipsJumpBackwardTrigger = '<NOP>'
+let g:SuperTabMappingForward = '<NOP>'
+let g:SuperTabMappingBackward = '<NOP>'
+" Don't unmap my mappings
+let g:UltiSnipsMappingsToIgnore = [ "SmartTab", "SmartShiftTab" ]
+
+" Make <CR> smart
+let g:ulti_expand_res = 0
+function! Ulti_ExpandOrEnter()
+  " First try to expand a snippet
+  call UltiSnips#ExpandSnippet()
+  if g:ulti_expand_res
+    " if successful, just return
+    return ''
+  elseif pumvisible()
+    " if in completion menu - just close it and leave the cursor at the
+    " end of the completion
+    return deoplete#mappings#close_popup()
+  else
+    " otherwise, just do an "enter"
+    return "\<return>"
+  endif
+endfunction
+inoremap <return> <C-R>=Ulti_ExpandOrEnter()<CR>
+
+" Enable tabbing and shift-tabbing through list of results
+function! g:SmartTab()
+  if pumvisible()
+    return SuperTab("n")
+  else
+    call UltiSnips#JumpForwards()
+    if g:ulti_jump_forwards_res == 0
+      return SuperTab("n")
+    endif
+    return ''
+  endif
+endfunction
+inoremap <silent> <tab> <C-R>=g:SmartTab()<cr>
+snoremap <silent> <tab> <Esc>:call g:SmartTab()<cr>
+
+function! g:SmartShiftTab()
+  if pumvisible()
+    return SuperTab("p")
+  else
+    call UltiSnips#JumpBackwards()
+    if g:ulti_jump_backwards_res == 0
+      return SuperTab("p")
+    endif
+    return ''
+  endif
+endfunction
+inoremap <silent> <s-tab> <C-R>=g:SmartShiftTab()<cr>
+snoremap <silent> <s-tab> <Esc>:call g:SmartShiftTab()<cr>
+
+map <Leader> <Plug>(easymotion-prefix)
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+nmap s <Plug>(easymotion-overwin-f)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Turn on case insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+
+autocmd FileType terraform setlocal commentstring=\#\ %s
+autocmd FileType terraform setlocal foldmethod=marker
