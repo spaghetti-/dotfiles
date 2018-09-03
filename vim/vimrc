@@ -1,20 +1,23 @@
 " For vim-plug auto install
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/plugged')
-" Plug 'dracula/vim'
+" Color theme
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
+
 " Autocomplete
 Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
@@ -29,40 +32,56 @@ Plug 'Raimondi/delimitMate'
 " Go, occupational hazard
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
-Plug 'fatih/vim-hclfmt'
 
+" Terraform
+Plug 'fatih/vim-hclfmt'
 Plug 'hashivim/vim-terraform'
-Plug 'vim-syntastic/syntastic'
 Plug 'juliosueiras/vim-terraform-completion'
 
+" Required to make deoplete autocomplete behave correctly especially considering
+" we will have ultisnips installed as well
 Plug 'https://github.com/ervandew/supertab.git'
 let g:SuperTabDefaultCompletionType = "<c-n>" " Make the tabing on completion menu go from top to bottom
 let g:SuperTabClosePreviewOnPopupClose = 1 " Close the preview when completion ends
+
+" Snippets
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
+" Better motions
 Plug 'easymotion/vim-easymotion'
 
+" Org
 Plug 'jceb/vim-orgmode'
 Plug 'tpope/vim-speeddating'
+
+" Lint engine
+Plug 'w0rp/ale'
+
+" For :Ag
+Plug 'vim-scripts/grep.vim'
 call plug#end()
 
+" Enforce UTF-8
+" Sometimes terminals don't set this, which messes up autocomplete, amongst
+" other things (esp. over ssh)
 set encoding=utf-8
 
 " Color stuff
-" colorscheme dracula
 set background=dark
 colorscheme gruvbox
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme = 'gruvbox'
 
+" This is mac specific, TODO
 let g:deoplete#sources#jedi#python_path = "/usr/local/bin/python3"
 augroup vimrc
-	autocmd!
+  autocmd!
 augroup END
 
 set relativenumber
 
+" Fast redraw, especially in tmux
 set lazyredraw
 set ttyfast
 
@@ -70,7 +89,6 @@ let mapleader=" "
 let maplocalleader="\\"
 
 " NERDCommenter stuff
-
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDCommentEmptyLines = 1
@@ -107,7 +125,7 @@ set showmode        " show mode in status bar (insert/replace/...)
 set showcmd         " show typed command in status bar
 set ruler           " show cursor position in status bar
 set title           " show file in titlebar
-                    " also useful with rofi
+" also useful with rofi
 set undofile        " stores undo state even when files are closed (in undodir)
 set cursorline      " highlights the current line
 set winaltkeys=no   " turns of the Alt key bindings to the gui menu
@@ -122,6 +140,8 @@ set completeopt=menu,menuone,longest
 set switchbuf=useopen,usetab
 
 " Force vim to detect 256 colors even in tmux
+"
+" TODO doesn't seem to work when run under urxvt
 let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
@@ -149,7 +169,7 @@ set fileformat=unix     " file mode is unix
 set fileformats=unix,dos,mac   " detects unix, dos, mac file formats in that order
 
 set viminfo='20,\"500   " remember copy registers after quitting in the .viminfo
-                        " file -- 20 jump links, regs up to 500 lines'
+" file -- 20 jump links, regs up to 500 lines'
 
 set hidden              " allows making buffers hidden even with unsaved changes
 set history=1000        " remember more commands and search history
@@ -213,7 +233,7 @@ set textwidth=80
 set laststatus=2 " Always display the statusline in all windows
 set showtabline=2 " Always display the tabline, even if there is only one tab
 set noshowmode " Hide the default mode text
-               "   (e.g. -- INSERT -- below the statusline)
+"   (e.g. -- INSERT -- below the statusline)
 
 " this makes the color after the textwidth column highlighted
 set colorcolumn=+1
@@ -241,10 +261,11 @@ map <leader>a <esc>ggVG<CR>
 cnoremap w!! w !sudo tee % >/dev/null
 
 " quit all
-noremap <Leader>q :qa<cr>
+" noremap <Leader>q :qa<cr>
 
 " fzf
 noremap <Leader>o :Files<cr>
+noremap <Leader>b :Buff<cr>
 
 " Switch to the directory of the open buffer
 noremap <leader>cd :cd %:p:h<cr>
@@ -288,15 +309,15 @@ let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const
 " NERDtree
 nnoremap <leader>n :NERDTreeToggle<CR>
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+"
 " (Optional)Remove Info(Preview) window
 " set completeopt-=preview
 
@@ -305,7 +326,7 @@ autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " (Optional) Enable terraform plan to be include in filter
-let g:syntastic_terraform_tffilter_plan = 1
+" let g:syntastic_terraform_tffilter_plan = 1
 
 " (Optional) Default: 0, enable(1)/disable(0) plugin's keymapping
 let g:terraform_completion_keys = 1
@@ -339,3 +360,10 @@ autocmd FileType terraform setlocal commentstring=\#\ %s
 autocmd FileType terraform setlocal foldmethod=marker
 
 let g:org_agenda_files = ['~/org/*.org']
+
+let g:ale_fixers = {
+      \   'go': [
+      \       'gofmt',
+      \       'goimports',
+      \   ],
+      \ }
