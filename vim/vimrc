@@ -22,7 +22,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
-
+Plug 'Shougo/echodoc.vim'
 Plug 'zchee/deoplete-jedi'
 
 " Close structures properly
@@ -31,7 +31,7 @@ Plug 'Raimondi/delimitMate'
 
 " Go, occupational hazard
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
 
 " Terraform
 Plug 'fatih/vim-hclfmt'
@@ -59,12 +59,17 @@ Plug 'w0rp/ale'
 
 " For :Ag
 Plug 'vim-scripts/grep.vim'
+
+Plug 'spaghetti-/kubesnips'
+Plug 'sebastianmarkow/deoplete-rust'
 call plug#end()
 
 " Enforce UTF-8
 " Sometimes terminals don't set this, which messes up autocomplete, amongst
 " other things (esp. over ssh)
 set encoding=utf-8
+
+set completeopt+=noselect
 
 " Color stuff
 set background=dark
@@ -96,7 +101,6 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 " Paste stuff
-
 if has('unnamedplus')
   " By default, Vim will not use the system clipboard when yanking/pasting to
   " the default register. This option makes Vim use the system default
@@ -125,7 +129,7 @@ set showmode        " show mode in status bar (insert/replace/...)
 set showcmd         " show typed command in status bar
 set ruler           " show cursor position in status bar
 set title           " show file in titlebar
-" also useful with rofi
+            		    " also useful with rofi
 set undofile        " stores undo state even when files are closed (in undodir)
 set cursorline      " highlights the current line
 set winaltkeys=no   " turns of the Alt key bindings to the gui menu
@@ -135,7 +139,7 @@ set winaltkeys=no   " turns of the Alt key bindings to the gui menu
 " completion options so you can complete the file without further keys
 set wildmode=longest,list,full
 set wildmenu            " completion with menu
-" the possible matches; see :h completeopt
+			" the possible matches; see :h completeopt
 set completeopt=menu,menuone,longest
 set switchbuf=useopen,usetab
 
@@ -165,11 +169,11 @@ set laststatus=2        " the statusline is now always shown
 set noshowmode          " don't show the mode ("-- INSERT --") at the bottom
 
 " misc settings
-set fileformat=unix     " file mode is unix
+set fileformat=unix            " file mode is unix
 set fileformats=unix,dos,mac   " detects unix, dos, mac file formats in that order
 
 set viminfo='20,\"500   " remember copy registers after quitting in the .viminfo
-" file -- 20 jump links, regs up to 500 lines'
+			" file -- 20 jump links, regs up to 500 lines'
 
 set hidden              " allows making buffers hidden even with unsaved changes
 set history=1000        " remember more commands and search history
@@ -300,6 +304,7 @@ augroup vimrc
   " Automatically delete trailing DOS-returns and whitespace on file open and
   " write.
   autocmd BufRead,BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
+  autocmd InsertEnter * call echodoc#enable()
 augroup END
 
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
@@ -367,3 +372,5 @@ let g:ale_fixers = {
       \       'goimports',
       \   ],
       \ }
+
+let g:deoplete#sources#rust#racer_binary='/Users/alex.john/.cargo/bin/racer'

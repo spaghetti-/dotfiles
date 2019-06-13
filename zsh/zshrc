@@ -42,8 +42,17 @@ function sgtoname () {
     --group-id "$1" | jq ".SecurityGroups[0].GroupName"
 }
 
+function awscli2fa () {
+  python3 $HOME/repos/awscli2fa/awscli2fa.py -p GrabMainAccount -P grab "$1"
+  export AWS_PROFILE=grab
+  echo "env AWS_PROFILE=grab"
+}
+
 source $HOME/repos/personal/z/z.sh
 
 ## END CUSTOM FUNCTIONS
 # Requires brew install zsh-syntax-highlighting
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
